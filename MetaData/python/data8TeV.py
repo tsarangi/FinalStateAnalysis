@@ -26,6 +26,13 @@ datadefs = {
         'x_sec': 36257.2,
         'responsible' : 'Josh',
     },
+    'W3JetsToLNu_madgraph' : {
+        'analyses': ['HTT'],
+        'datasetpath': '/W3JetsToLNu_TuneZ2Star_8TeV-madgraph/Summer12-PU_S7_START52_V9-v2/AODSIM',
+        'pu': 'S7',
+        'x_sec': -999,
+        'responsible' : 'Josh',
+    },
     'Zjets_M50' : {
         'analyses': ['HTT'],
         'datasetpath': '/DYJetsToLL_M-50_TuneZ2Star_8TeV-madgraph-tarball/Summer12-PU_S7_START52_V9-v2/AODSIM',
