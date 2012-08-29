@@ -78,7 +78,7 @@ datadefs = {
        },
     'TTplusJets_madgraph' : {
         'analyses': ['HTT'],
-        'datasetpath': '/TTJets_TuneZ2star_8TeV-madgraph-tauola/Summer12-PU_S7_START52_V5-v1/AODSIM',
+        'datasetpath': '/TTJets_TuneZ2star_8TeV-madgraph-tauola/Summer12-PU_S7_START52_V9-v1/AODSIM',
         'pu': 'S7',
         'x_sec': 225.197,
         #'x_sec': 136.3, # prep
