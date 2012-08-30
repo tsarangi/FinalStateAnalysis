@@ -249,7 +249,7 @@ datadefs = {
     },
     'embedded_2012B_mutau_196090_196531' : {
         'analyses': ['HTT'],
-        'datasetpath' : "/DoubleMu/StoreResults-DoubleMu_2012B_PromptReco_v1_Run196090to196531_embedded_trans1_tau116_ptmu1_13had1_17_v2-f456bdbb960236e5c696adfe9b04eaae/USER"
+        'datasetpath' : "/DoubleMu/StoreResults-DoubleMu_2012B_PromptReco_v1_Run196090to196531_embedded_trans1_tau116_ptmu1_13had1_17_v2-f456bdbb960236e5c696adfe9b04eaae/USER",
         'lumi_mask' : "FinalStateAnalysis/RecoTools/data/masks/Cert_190456-196531_8TeV_PromptReco_Collisions12_JSON.txt",
         'xsec' : -999,
         'pu' : 'data',
