@@ -23,7 +23,7 @@ options = TauVarParsing.TauVarParsing(
 )
 
 files = [
-    "root://cmsxrootd.hep.wisc.edu//store/data/Run2012A/DoubleMu/AOD/PromptReco-v1/000/190/456/D0478E94-0681-E111-82A4-0019B9F72F97.root"
+    "root://cmsxrootd.hep.wisc.edu//store/results/higgs/DoubleMu/StoreResults-DoubleMu_2012A_PromptReco_v1_embedded_trans1_tau116_ptmu1_13had1_17_v2-f456bdbb960236e5c696adfe9b04eaae/DoubleMu/USER/StoreResults-DoubleMu_2012A_PromptReco_v1_embedded_trans1_tau116_ptmu1_13had1_17_v2-f456bdbb960236e5c696adfe9b04eaae/0000/FC04676F-2AAC-E111-9499-0023AEFDEE84.root"
 ]
 for file in files:
     options.inputFiles = file
