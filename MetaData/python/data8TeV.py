@@ -91,6 +91,13 @@ datadefs = {
         'x_sec': 32.3161*3*0.03365*(0.1075+0.1057+0.1125) ,
         'responsible' : 'Evan',
     },
+    'WZJetsTo3LNu_madgraph' : {
+        'analyses': ['HTT'],
+        'datasetpath': '/WZJetsTo3LNu_TuneZ2_8TeV-madgraph-tauola/Summer12-PU_S7_START52_V9-v2/AODSIM',
+        'pu': 'S7',
+        'x_sec': -999,
+        'responsible' : 'Josh',
+    },
     'WWJetsTo2L2Nu_TuneZ2_8TeV' : {
         'analyses': ['HTT'],
         'datasetpath': '/WWTo2L2Nu_TuneZ2star_8TeV_pythia6_tauola/Summer12-PU_S7_START52_V9-v1/AODSIM',
@@ -98,6 +105,13 @@ datadefs = {
         # seems too high..
         'x_sec': 54.838*(0.1075+0.1057+0.1125)*(0.1075+0.1057+0.1125),
         #'x_sec': 3.53, # prep
+        'responsible' : 'Josh',
+    },
+    'WWJetsTo2L2Nu_TuneZ2_8TeV_madgraph' : {
+        'analyses': ['HTT'],
+        'datasetpath': '/WWJetsTo2L2Nu_TuneZ2star_8TeV-madgraph-tauola/Summer12-PU_S7_START52_V9-v1/AODSIM',
+        'pu': 'S7',
+        'x_sec': -999,
         'responsible' : 'Josh',
     },
     'ZZJetsTo4L_pythia' : {
@@ -255,6 +269,20 @@ datadefs = {
         'pu' : 'data',
         'responsible' : 'Evan',
         },
+    'SUSYGluGlu_M120_pythia' : {
+   'analyses' :  ['HTT'],
+   'datasetpath' : "/SUSYGluGluToHToTauTau_M-120_8TeV-pythia6-tauola/Summer12-PU_S7_START52_V9-v1/AODSIM",
+   'xsec' : -999,
+   'pu' : 'S7',
+   'responsible' : 'Josh',
+   },
+    'SUSYBBH_M120_pythia' : {
+   'analyses' :  ['HTT'],
+   'datasetpath' : "/SUSYBBHToTauTau_M-120_8TeV-pythia6-tauola/Summer12-PU_S7_START52_V9-v1/AODSIM",
+   'xsec' : -999,
+   'pu' : 'S7',
+   'responsible' : 'Josh',
+   },
 }
 
 ############################################################################
