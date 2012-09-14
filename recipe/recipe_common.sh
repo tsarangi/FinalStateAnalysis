@@ -31,30 +31,12 @@ cvs up -r 1.24 CMGTools/External/src/PileupJetIdAlgo.cc
 
 # Add Electron ID MVA
 cvs co -r V00-00-08 -d EGamma/EGammaAnalysisTools UserCode/EGamma/EGammaAnalysisTools
-# Get updated effective areas
-cvs up -r 1.3 EGamma/EGammaAnalysisTools/interface/ElectronEffectiveArea.h
 pushd EGamma/EGammaAnalysisTools/data
 cat download.url | xargs wget
 popd
 
-# Get Electron ISO MVA weights
-cvs co -r V00-00-00 UserCode/sixie/EGamma/EGammaAnalysisTools/data/
-
-# Add muon MVA
-cvs co -r V00-00-10 -d Muon/MuonAnalysisTools UserCode/sixie/Muon/MuonAnalysisTools 
-
-# Get electron energy calibrations
-# See https://twiki.cern.ch/twiki/bin/viewauth/CMS/EgammaElectronEnergyScale
-# Update to ICHEP tag IAR 17.Jun.2012
-cvs co -r Shervin13062012_2012Prompt_and_Summer12MC_smearing_V00 -d EgammaCalibratedGsfElectrons UserCode/EGamma/EgammaCalibratedGsfElectrons
-
 # Get the VBF MVA weight files
 # https://twiki.cern.ch/twiki/bin/viewauth/CMS/HiggsToTauTauWorking2012#VBF_selection_Matthew
 cvs co -r 1.2 UserCode/MitHtt/data/VBFMVA/MuTau/VBFMVA_BDTG.weights.xml
-
-pushd $CMSSW_BASE/src/FinalStateAnalysis/recipe/
-echo "Installing Higgs xsec lookup tables"
-./install_HCSaW.sh
-popd
 
 popd

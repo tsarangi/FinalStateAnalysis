@@ -60,24 +60,7 @@ The following cut-based muon IDs are embedded:
 * ``userInt('VBTF')``
 * ``userInt('tightID')`` - 2012 Muon POG recommendation
 
-The WWID2011 is the same as defined in the UWAnalysis packages.  The following
-MVA IDs (see the `MuonId twiki`_).
-
-.. _MuonId twiki: https://twiki.cern.ch/twiki/bin/viewauth/CMS/MultivariateMuonSelection
-
-
-* ``userFloat('isomva')``
-* ``userFloat('idmva')`` - just rings
-* ``userFloat('isoringsradmva')`` - rings + radial
-
-Three isolation (rings) MVA working points are embedded, from the `H2Tau 2012
-twiki`_.  Note that WP2 is the loosest. :|
-
-.. _H2Tau 2012 twiki: https://twiki.cern.ch/twiki/bin/view/CMS/HiggsToTauTauWorking2012#Object_ID_AN1
-
-* ``userInt('mvaisowp1')``
-* ``userInt('mvaisowp2')``
-* ``userInt('mvaisowp3')``
+The WWID2011 is the same as defined in the UWAnalysis packages.  
 
 You can get a ref to to the associated PFMuon via:
 
@@ -109,11 +92,6 @@ The jet pt is stored as ``userFloat('jetPt')``.  If the
 jet doesn't exist, the "jet pt" is equal to the muon Pt.  
 The distance to the jet is ``userFloat('jetDR')``.
 
-The "effective area" for different isolation types is available:
-
-* ``userFloat("EAGamma04")``
-* ``userFloat("EANeuHadron04")``
-* ``userFloat("EAGammaNeuHadron04")``
 
 Electrons
 ---------
@@ -148,29 +126,12 @@ The following 2011 electron MVA ID related information is embedded:
 * ``userFloat("MVApreID")`` - pre-ID cuts used for the MVA
 * ``userFloat("MITID")`` - MIT MVA ID working point binary value
 
-The following 2012 electron MVA ISOs (see `EGamma Iso Recipe`_) are available:
-
-.. _EGamma Iso Recipe: https://twiki.cern.ch/twiki/bin/view/CMS/EgammaMultivariateIsoElectrons
-
-* ``userFloat('isomva')``
-
-An MVA working point for the electron ID and Iso are embedded, again from the `H2Tau 2012
+An MVA working point for the electron ID is embedded, again from the `H2Tau 2012
 twiki`_.   The ID working point is based on the "NonTrig" MVA.
 
 .. _H2Tau 2012 twiki: https://twiki.cern.ch/twiki/bin/view/CMS/HiggsToTauTauWorking2012#Object_ID_AN1
 
 * ``userInt('mvaidwp')``
-* ``userInt('mvaisowp')``
-
-The "effective area" for different isolation types is available:
-
-* ``userFloat("EAGamma04")``
-* ``userFloat("EANeuHadron04")``
-* ``userFloat("EAGammaNeuHadron04")``
-
-The `EGamma rho correction`_ is then: ``chargedHadronIso + max(photonIso + neutralHadronIso - userFloat('EAGammaNeuHadron04')*userFloat('rho'), 0)``
-
-.. _EGamma rho correction: https://twiki.cern.ch/twiki/bin/view/CMS/EgammaEARhoCorrection
 
 The following IP information is embedded as userFloats: 
 
@@ -190,9 +151,6 @@ fixme)
 * ``ees-`` (down 1 sigma)
 * ``ees+`` (up 1 sigma)
 
-References to the calibrated GSF electrons are embedded as user cands:  
-
-* ``userCand("calibrated")``
 
 returns a reco::CandidatePtr pointing to a reco::GsfElectron.
 

@@ -6,7 +6,6 @@ import PhysicsTools.PatAlgos.tools.metTools as mettools
 import PhysicsTools.PatAlgos.tools.tauTools as tautools
 import PhysicsTools.PatAlgos.tools.coreTools as coreTools
 import PhysicsTools.PatAlgos.tools.pfTools as pfTools
-import PhysicsTools.PatAlgos.patEventContent_cff as patContent
 
 from FinalStateAnalysis.Utilities.cfgtools import chain_sequence
 from FinalStateAnalysis.Utilities.version import cmssw_major_version
@@ -14,6 +13,7 @@ from FinalStateAnalysis.PatTools.pfIsolationTools import setup_h2tau_iso
 from FinalStateAnalysis.PatTools.patFinalStateProducers import produce_final_states
 
 def configurePatTuple(process, isMC=True, **kwargs):
+
     # Stuff we always keep
     output_commands = [
 #        '*',
@@ -22,11 +22,7 @@ def configurePatTuple(process, isMC=True, **kwargs):
         '*_lumiProducer_*_*',
         '*_particleFlow_*_*',
         '*_offlineBeamSpot_*_*',
-        '*_trackCandidates_*_*',
-        '*_gsfTrackCandidates_*_*',
-        # Debug
         '*_generalTracks_*_*',
-        #'*_offlinePrimaryVertices_*_*',
         '*_electronGsfTracks_*_*',
         '*_offlinePrimaryVertices*_*_*',
         '*_ak5GenJets_*_*',
@@ -79,10 +75,10 @@ def configurePatTuple(process, isMC=True, **kwargs):
     process.tuplize += process.kt6PFJetsForIso
 
     # Standard services
-    process.load('Configuration/StandardSequences/Services_cff')
-    process.load('Configuration/StandardSequences/GeometryIdeal_cff')
-    process.load('Configuration/StandardSequences/MagneticField_cff')
-    process.load('Configuration/StandardSequences/FrontierConditions_GlobalTag_cff')
+    process.load('Configuration.StandardSequences.Services_cff')
+    process.load('Configuration.StandardSequences.GeometryIdeal_cff')
+    process.load('Configuration.StandardSequences.MagneticField_cff')
+    process.load('Configuration.StandardSequences.FrontierConditions_GlobalTag_cff')
 
     # Rerun tau ID
     if cmssw_major_version() == 4:
@@ -152,29 +148,6 @@ def configurePatTuple(process, isMC=True, **kwargs):
     process.patElectrons.electronIDSources = process.electronIDSources
     process.patElectrons.embedTrack = True
 
-    # Run EGamma electron energy calibration
-    process.load("EgammaCalibratedGsfElectrons.CalibratedElectronProducers.calibratedGsfElectrons_cfi")
-    process.RandomNumberGeneratorService.calibratedGsfElectrons = cms.PSet(
-        initialSeed = cms.untracked.uint32(1), # A frickin billion
-        engineName = cms.untracked.string('TRandom3')
-    )
-    process.calibratedGsfElectrons.inputDataset = cms.string(kwargs['dataset'])
-    process.calibratedGsfElectrons.isMC = bool(isMC)
-    process.calibratedGsfElectrons.isEmbedded = cms.bool(bool(kwargs['embedded']))
-    if kwargs['embedded']:
-        process.calibratedGsfElectrons.isMC = False
-    process.calibratedGsfElectrons.isAOD = True
-    process.calibratedGsfElectrons.updateEnergyError = cms.bool(True)
-    # Run a sanity check on the calibration configuration.
-    from FinalStateAnalysis.PatTools.electrons.patElectronEmbedCalibratedGsf_cfi \
-            import validate_egamma_calib_config
-    validate_egamma_calib_config(process)
-
-    process.tuplize += process.calibratedGsfElectrons
-    # Keep the calibratedGsfElectrons - we embed refs to this into the
-    # pat::Electrons
-    output_commands.append('*_calibratedGsfElectrons_*_*')
-
     # Now run PAT
     process.tuplize += process.patDefaultSequence
 
@@ -197,7 +170,9 @@ def configurePatTuple(process, isMC=True, **kwargs):
 
     # Use PFJets and turn on JEC
     jec = [ 'L1FastJet', 'L2Relative', 'L3Absolute' ]
-    if not isMC:
+    # If we are running on data (not MC), or embedded sample,
+    # apply the MC-DATA residual correction.
+    if not isMC or kwargs['embedded']:
         jec.extend([ 'L2L3Residual' ])
 
     # Define options for BTagging - these are release dependent.
@@ -243,7 +218,7 @@ def configurePatTuple(process, isMC=True, **kwargs):
     if not isMC:
         coreTools.runOnData(process)
         process.patMETsPF.addGenMET = False
-    output_commands.append('patJets_selectedPatJets_*_*')
+    output_commands.append('*_selectedPatJets_*_*')
 
     # Customize/embed all our sequences
     process.load("FinalStateAnalysis.PatTools.patJetProduction_cff")
@@ -271,9 +246,6 @@ def configurePatTuple(process, isMC=True, **kwargs):
     # We have to do the pat Jets before the pat electrons since we embed them
     process.customizeElectronSequence.insert(0, process.selectedPatJets)
     process.cleanPatElectrons.src = final_electron_collection
-    # The "effective area" calculation needs to know if it is data/mc, etc.
-    process.patElectronMVAIsoEmbedding.target = kwargs['target']
-    process.patElectronEffectiveAreaEmbedder.target = kwargs['target']
 
     process.load("FinalStateAnalysis.PatTools.patMuonProduction_cff")
     final_muon_collection = chain_sequence(
@@ -282,9 +254,6 @@ def configurePatTuple(process, isMC=True, **kwargs):
     process.patDefaultSequence.replace(process.selectedPatMuons,
                                        process.customizeMuonSequence)
     process.cleanPatMuons.src = final_muon_collection
-    # The "effective area" calculation needs to know if it is data/mc, etc.
-    process.patMuonMVAIdIsoEmbedding.target = kwargs['target']
-    process.patMuonEffectiveAreaEmbedder.target = kwargs['target']
 
     process.load("FinalStateAnalysis.PatTools.patTauProduction_cff")
     final_tau_collection = chain_sequence(
@@ -342,14 +311,6 @@ def configurePatTuple(process, isMC=True, **kwargs):
     output_commands.append('*_%s_*_*' % final_met_collection.value())
 
     trigtools.switchOnTrigger(process)
-
-    # Build the MVA regression PFMET
-    process.load("RecoMET.METProducers.mvaPFMET_cff")
-    process.tuplize += process.calibratedAK5PFJetsForPFMEtMVA
-    process.tuplize += process.pfMEtMVAData
-    # Products for future computation of MVAMET
-    output_commands.append('*_pfMEtMVAData_*_*')
-    output_commands.append('*_calibratedAK5PFJetsForPFMEtMVA_*_*')
 
     # Now build the PATFinalStateLS object, which holds LumiSection info.
     process.load(
