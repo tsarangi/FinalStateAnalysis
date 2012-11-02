@@ -160,6 +160,13 @@ datadefs = {
    'pu' : 'S10',
    },
 
+   'WGToLNuG_TuneZ2star_8TeV-madgraph-tauola' : {
+   'analyses' : ['VH'],
+   'datasetpath' : "/WGToLNuG_TuneZ2star_8TeV-madgraph-tauola/Summer12_DR53X-PU_S10_START53_V7A-v1/AODSIM",
+   'x_sec' : -999,
+   'pu' : 'S10',
+   },
+
    'DoubleMu_Run2012B_13Jul2012_v4_embedded_trans1_tau116_ptmu1_13had1_17_v1' : {
    'analyses': ['HTauTau'],
    'datasetpath' : "/DoubleMu/StoreResults-DoubleMu_Run2012B_13Jul2012_v4_embedded_trans1_tau116_ptmu1_13had1_17_v1-f456bdbb960236e5c696adfe9b04eaae/USER",
